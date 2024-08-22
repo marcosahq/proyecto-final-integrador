@@ -7,6 +7,10 @@
 - [application.properties](src/main/resources/application.properties)
 - [main](src/main/java/com/app/hotel/HotelApplication.java)
 
+## API Postman
+
+https://documenter.getpostman.com/view/3683906/2sAXjDduw9
+
 ## Guia Videotutorial
 
 https://www.youtube.com/watch?v=M7lhQMzzHWU
