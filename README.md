@@ -8,6 +8,7 @@ https://www.youtube.com/watch?v=M7lhQMzzHWU
 
 - Java JDK 17
 - Laragon + MySQL
+- Intellij Idea o Visual Studio Code
 
 ## Pasos para ejecutar en local
 
