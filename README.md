@@ -1,5 +1,12 @@
 # proyecto-final-integrador
 
+[Ir a la documentación oficial](https://spring.io/guides)
+
+## Enlace directo a los principales archivos
+
+- [application.properties](src/main/resources/application.properties)
+- [main](src/main/java/com/app/hotel/HotelApplication.java)
+
 ## Guia Videotutorial
 
 https://www.youtube.com/watch?v=M7lhQMzzHWU
@@ -17,9 +24,7 @@ https://www.youtube.com/watch?v=M7lhQMzzHWU
 ```sh
 # [Paso 01]
 # Ejecutar script db_hotel.sql 
-```
 
-```sh
 # [Paso 02]
 # Path: src/main/resources/application.properties
 # Configurar con estos datos
@@ -30,9 +35,7 @@ spring.datasource.url=jdbc:mysql://localhost:3306/db_hotel
 spring.datasource.username=root
 spring.datasource.password=
 spring.jpa.hibernate.ddl-auto=update
-```
 
-```sh
 # [Paso 03]
 # Path: src/main/java/com/app/hotel/HotelApplication.java
 # Clic derecho > Ejecutar run HotelApplication.java
