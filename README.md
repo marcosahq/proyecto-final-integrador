@@ -6,9 +6,10 @@ https://www.youtube.com/watch?v=M7lhQMzzHWU
 
 ## Requerimientos
 
+- Configurar SSH en GitHub
+- Intellij Idea o Visual Studio Code
 - Java JDK 17
 - Laragon + MySQL
-- Intellij Idea o Visual Studio Code
 - Postman
 
 ## Pasos para ejecutar en local
