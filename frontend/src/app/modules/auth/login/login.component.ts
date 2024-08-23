@@ -15,8 +15,8 @@ export class LoginComponent {
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService) {
     this.formGroup = formBuilder.group({
-      email: formBuilder.control("invitado@gmail.com", [Validators.required, Validators.email]),
-      password: formBuilder.control("Invitado2023.", [Validators.required])
+      email: formBuilder.control(null, [Validators.required, Validators.email]),
+      password: formBuilder.control(null, [Validators.required])
     });
   }
 
