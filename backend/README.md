@@ -5,7 +5,7 @@
 ## Enlace directo a los principales archivos
 
 - [application.properties](src/main/resources/application.properties)
-- [main](src/main/java/com/app/hotel/HotelApplication.java)
+- [main](src/main/java/com/app/hotel/MainApplication.java)
 
 ## API Postman
 
@@ -15,13 +15,18 @@ https://documenter.getpostman.com/view/3683906/2sAXjDduw9
 
 https://www.youtube.com/watch?v=M7lhQMzzHWU
 
-## Requerimientos
+## Requerimientos principales
 
-- Configurar SSH en GitHub
-- Intellij Idea o Visual Studio Code
-- Java JDK 17
-- Laragon + MySQL
-- Postman
+- Instalar GitBash
+- Instalar Java JDK 17
+- Instalar spring-cli https://github.com/spring-projects/spring-cli/releases
+
+## Requerimientos secundarios
+
+- Instalar Intellij Idea o Visual Studio Code
+- Configurar git SSH en GitHub
+- Instalar Laragon + MySQL
+- Instalar Postman
 
 ## Pasos para ejecutar en local
 
