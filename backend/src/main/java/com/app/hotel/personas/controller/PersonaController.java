@@ -2,13 +2,13 @@ package com.app.hotel.personas.controller;
 
 import com.app.hotel.personas.model.dto.PersonaDto;
 import com.app.hotel.personas.service.PersonaService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/personas")
@@ -26,7 +26,7 @@ public class PersonaController {
     public ResponseEntity<PersonaDto> getPersonaById(@PathVariable Long id) {
         return personaService.findPersonaById(id)
                 .map(ResponseEntity::ok)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Persona no encontrada con ID: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("No se encontró a la persona con ID: " + id));
     }
 
     @PostMapping
