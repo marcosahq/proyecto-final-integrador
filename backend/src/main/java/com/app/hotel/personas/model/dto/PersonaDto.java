@@ -1,6 +1,8 @@
 package com.app.hotel.personas.model.dto;
 
 import com.app.hotel.personas.model.entity.Estado;
+import com.app.hotel.personas.model.entity.EstadoCivil;
+import com.app.hotel.personas.model.entity.Sexo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,13 +15,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class PersonaDto {
-    private Long id;
+    private Integer id;
     private String nombre;
     private String apellido;
-    private String dni;
-    private String direccion;
+    private Integer tipoDocumento;
+    private String nroDocumento;
+    private Sexo sexo;
+    private String edad;
     private String telefono;
-    private String correo;
+    private String fechaNacimiento;
+    private EstadoCivil estadoCivil;
     private Estado estado;
     private LocalDateTime fechaCreado;
     private LocalDateTime fechaActualizado;
