@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(length = 100, nullable = false)
     private String nombre;
@@ -25,17 +25,27 @@ public class Persona {
     @Column(length = 100, nullable = false)
     private String apellido;
 
-    @Column(length = 15, nullable = false)
-    private String dni;
+    @Column(name = "tipo_documento", unique = true)
+    private Integer tipoDocumento;
 
-    @Column(length = 200, nullable = false)
-    private String direccion;
+    @Column(length = 30, name = "nrodocumento", unique = true)
+    private String nroDocumento;
 
-    @Column(length = 15)
+    @Enumerated(EnumType.STRING)
+    private Sexo sexo;
+
+    @Column(length = 5)
+    private String edad;
+
+    @Column(length = 30)
     private String telefono;
 
-    @Column(length = 100)
-    private String correo;
+    @Column(length = 30, name = "fecha_nacimiento")
+    private String fechaNacimiento;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado_civil")
+    private EstadoCivil estadoCivil;
 
     @Enumerated(EnumType.STRING)
     private Estado estado;

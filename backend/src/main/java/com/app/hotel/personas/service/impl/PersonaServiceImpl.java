@@ -72,10 +72,13 @@ public class PersonaServiceImpl implements PersonaService {
                 .id(persona.getId())
                 .nombre(persona.getNombre())
                 .apellido(persona.getApellido())
-                .dni(persona.getDni())
-                .direccion(persona.getDireccion())
+                .tipoDocumento(persona.getTipoDocumento())
+                .nroDocumento(persona.getNroDocumento())
+                .sexo(persona.getSexo())
+                .edad(persona.getEdad())
                 .telefono(persona.getTelefono())
-                .correo(persona.getCorreo())
+                .fechaNacimiento(persona.getFechaNacimiento())
+                .estadoCivil(persona.getEstadoCivil())
                 .estado(persona.getEstado())
                 .fechaCreado(persona.getFechaCreado())
                 .fechaActualizado(persona.getFechaActualizado())
@@ -92,10 +95,13 @@ public class PersonaServiceImpl implements PersonaService {
     private void mapUpdatePersona(PersonaDto personaDto, Persona existingPersona) {
         existingPersona.setNombre(personaDto.getNombre());
         existingPersona.setApellido(personaDto.getApellido());
-        existingPersona.setDni(personaDto.getDni());
-        existingPersona.setDireccion(personaDto.getDireccion());
+        existingPersona.setTipoDocumento(personaDto.getTipoDocumento());
+        existingPersona.setNroDocumento(personaDto.getNroDocumento());
+        existingPersona.setSexo(personaDto.getSexo());
+        existingPersona.setEdad(personaDto.getEdad());
         existingPersona.setTelefono(personaDto.getTelefono());
-        existingPersona.setCorreo(personaDto.getCorreo());
+        existingPersona.setFechaNacimiento(personaDto.getFechaNacimiento());
+        existingPersona.setEstadoCivil(personaDto.getEstadoCivil());
         existingPersona.setEstado(personaDto.getEstado());
     }
 }
