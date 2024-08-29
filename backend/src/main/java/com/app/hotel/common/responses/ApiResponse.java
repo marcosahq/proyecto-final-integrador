@@ -7,7 +7,13 @@ package com.app.hotel.common.responses;
     data: Contiene la información que se devuelve en caso de una respuesta exitosa. Puede ser de cualquier tipo genérico (T), lo que lo hace flexible.
  */
 
+//import lombok.Getter;
+
+import lombok.Setter;
+
+@Setter
 public class ApiResponse<T> {
+    // Getters y setters
     private boolean success;
     private String message;
     private T result;
@@ -22,31 +28,6 @@ public class ApiResponse<T> {
     public ApiResponse(boolean success, String message) {
         this.success = success;
         this.message = message;
-    }
-
-    // Getters y setters
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public T getResult() {
-        return result;
-    }
-
-    public void setResult(T result) {
-        this.result = result;
     }
 
     // Respuesta exitosa

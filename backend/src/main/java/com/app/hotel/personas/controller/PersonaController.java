@@ -1,5 +1,7 @@
 package com.app.hotel.personas.controller;
 
+import com.app.hotel.common.responses.OffsetPaginatedResponse;
+import com.app.hotel.common.responses.ResponseFactory;
 import com.app.hotel.personas.model.dto.PersonaDto;
 import com.app.hotel.personas.service.PersonaService;
 import jakarta.persistence.EntityNotFoundException;
@@ -10,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.List;
+
 @RestController
 @RequestMapping("/personas")
 @RequiredArgsConstructor
@@ -18,8 +23,15 @@ public class PersonaController {
     private final PersonaService personaService;
 
     @GetMapping("/page/{page}")
-    public Page<PersonaDto> getAllPersonas(@PathVariable Integer page) {
-        return personaService.findAllPersonas(PageRequest.of(page, 10));
+    public OffsetPaginatedResponse<PersonaDto> getAllPersonas(@PathVariable Integer page) {
+        Page<PersonaDto> personaPage = personaService.findAllPersonas(PageRequest.of(page-1, 2));
+        List<PersonaDto> result = personaPage.getContent();
+
+        int currentPage = page;
+        int pageSize = personaPage.getTotalPages();
+        long totalItems = personaPage.getTotalElements();
+
+        return ResponseFactory.paginatedSuccessWithOffset(result, currentPage, pageSize, totalItems);
     }
 
     @GetMapping("/{id}")
