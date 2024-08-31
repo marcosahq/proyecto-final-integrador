@@ -4,34 +4,37 @@ import com.app.hotel.common.responses.OffsetPaginatedResponse;
 import com.app.hotel.common.responses.ResponseFactory;
 import com.app.hotel.personas.model.dto.PersonaDto;
 import com.app.hotel.personas.service.PersonaService;
+import com.app.hotel.personas.service.impl.PersonaServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
+
+@Validated
 @RestController
 @RequestMapping("/personas")
 @RequiredArgsConstructor
 public class PersonaController {
 
-    private final PersonaService personaService;
+    private final PersonaServiceImpl personaService;
 
-    @GetMapping("/page/{page}")
-    public OffsetPaginatedResponse<PersonaDto> getAllPersonas(@PathVariable Integer page) {
-        Page<PersonaDto> personaPage = personaService.findAllPersonas(PageRequest.of(page-1, 2));
+    @GetMapping()
+    public ResponseEntity<?> getAllPersonas(@RequestParam(name = "page") Integer page) {
+        Page<PersonaDto> personaPage = personaService.findAllPersonas(PageRequest.of(page - 1, 2));
         List<PersonaDto> result = personaPage.getContent();
 
         int currentPage = page;
         int pageSize = personaPage.getTotalPages();
         long totalItems = personaPage.getTotalElements();
 
-        return ResponseFactory.paginatedSuccessWithOffset(result, currentPage, pageSize, totalItems);
+        return ResponseEntity.ok(ResponseFactory.paginatedSuccessWithOffset(result, currentPage, pageSize, totalItems));
     }
 
     @GetMapping("/{id}")
