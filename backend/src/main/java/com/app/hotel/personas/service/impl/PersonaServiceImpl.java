@@ -57,14 +57,13 @@ public class PersonaServiceImpl implements PersonaService {
 
     @Override
     public void deletePersona(Long id) {
-        Optional.of(id)
-                .filter(personaRepository::existsById)
-                .ifPresentOrElse(
-                        personaRepository::deleteById,
-                        () -> {
-                            throw new EntityNotFoundException("No se encontró persona con el ID: " + id);
-                        }
-                );
+        Optional.of(id) // Envuelve el ID en un Optional
+                .filter(personaRepository::existsById) // Filtra si la persona existe
+                .map(idPersona ->{
+                    personaRepository.deleteById(idPersona);
+                    return idPersona;
+                })
+                .orElseThrow(() -> new EntityNotFoundException("No se encontró persona con el ID: " + id)); // Lanza excepción si no existe
     }
 
     private PersonaDto mapPersonaToDto(Persona persona) {
