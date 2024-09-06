@@ -1,4 +1,4 @@
-package com.app.hotel.common.util;
+package com.app.hotel.common.utils;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;

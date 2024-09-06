@@ -1,4 +1,4 @@
-package com.app.hotel.common.util;
+package com.app.hotel.common.utils;
 
 public class ConversionUtil {
 
