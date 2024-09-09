@@ -1,4 +1,4 @@
-package com.app.hotel.common.utils;
+package com.app.hotel.common.exceptions;
 
 public class ExceptionUtil {
 

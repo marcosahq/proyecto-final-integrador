@@ -2,7 +2,7 @@ package com.app.hotel.common.responses;
 
 import lombok.Getter;
 
-public class CursorPaginatedResponse<T> extends ApiResponse<T> {
+public class CursorPaginatedResponse<T> extends ResponseFactory<T> {
     @Getter
     private final String nextCursor;
     @Getter

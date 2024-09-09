@@ -1,8 +1,11 @@
 package com.app.hotel.common.responses;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 @Setter
@@ -11,12 +14,15 @@ public class ResponseFactory<T> {
     private boolean success;
     private String message;
     private T result;
+    private LocalDateTime timestamp;
+    private HttpStatus status;
 
     // Constructores
     public ResponseFactory(boolean success, String message, T result) {
         this.setSuccess(success);
         this.setMessage(message);
         this.setResult(result);
+        this.setTimestamp(LocalDateTime.now());
     }
 
     // Respuesta exitosa sin paginación
@@ -29,14 +35,11 @@ public class ResponseFactory<T> {
         return new ResponseFactory<>(true, message, result);
     }
 
-    // Respuesta de error con mensaje personalizado
-    public static <T> ResponseFactory<T> error(String message) {
-        return new ResponseFactory<>(false, message, null);
-    }
-
     // Respuesta exitosa con paginación por Offset y Limit
-    public static <T> OffsetPaginatedResponse<List<T>> paginatedSuccessWithOffset(List<T> result, long total, int perPage, int currentPage, String baseUrl) {
-        return new OffsetPaginatedResponse<>(true, "Operación correcta", result, total, perPage, currentPage,baseUrl);
+    public static <T> OffsetPaginatedResponse<ResultPagination<T>> paginatedSuccessWithOffset(List<T> data, long total, int perPage, int currentPage, String baseUrl) {
+        Pagination pagination = new Pagination(total, perPage, currentPage);
+        ResultPagination<T> result = new ResultPagination<>(data, pagination, baseUrl);
+        return new OffsetPaginatedResponse<>(true, "Operación correcta", result);
     }
 
     // Respuesta exitosa con paginación basada en cursores

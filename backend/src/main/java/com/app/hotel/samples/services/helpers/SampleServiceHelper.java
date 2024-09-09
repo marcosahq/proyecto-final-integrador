@@ -1,8 +1,7 @@
-package com.app.hotel.samples.utils;
+package com.app.hotel.samples.services.helpers;
 
 import com.app.hotel.samples.models.dtos.SampleDto;
 import com.app.hotel.samples.models.entities.Sample;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Component
 @NoArgsConstructor
-public class SampleUtil {
+public class SampleServiceHelper {
 
     public SampleDto mapSampleToDto(Sample entity) {
         SampleDto.SampleDtoBuilder sampleDtoBuilder = SampleDto.builder();

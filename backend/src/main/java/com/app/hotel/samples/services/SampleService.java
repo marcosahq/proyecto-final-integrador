@@ -3,17 +3,17 @@ package com.app.hotel.samples.services;
 import com.app.hotel.samples.models.dtos.SampleDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
+@Service
 public interface SampleService {
     Page<SampleDto> findAllSamples(Pageable pageable);
 
-    Optional<SampleDto> findSampleById(Long id);
+    SampleDto findSampleById(Long id);
 
-    Optional<SampleDto> saveSample(SampleDto sampleDto);
+    SampleDto saveSample(SampleDto sampleDto);
 
-    Optional<SampleDto> updateSample(Long id, SampleDto sampleDto);
+    SampleDto updateSample(Long id, SampleDto sampleDto);
 
-    Optional<?> deleteSample(Long id);
+    void deleteSample(Long id);
 }

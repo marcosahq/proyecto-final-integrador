@@ -1,4 +1,4 @@
-package com.app.hotel.common.models;
+package com.app.hotel.common.responses;
 
 import lombok.Getter;
 import lombok.Setter;

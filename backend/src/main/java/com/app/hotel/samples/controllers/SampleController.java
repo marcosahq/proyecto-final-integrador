@@ -2,14 +2,15 @@ package com.app.hotel.samples.controllers;
 
 import com.app.hotel.common.requests.CustomRequest;
 import com.app.hotel.common.responses.ResponseFactory;
+import com.app.hotel.common.responses.ResultPagination;
 import com.app.hotel.personas.util.PersonaUtil;
 import com.app.hotel.samples.models.dtos.SampleDto;
 import com.app.hotel.samples.services.impl.SampleServiceImpl;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -31,43 +32,44 @@ public class SampleController {
         int page = personaRequest.getPage();
 
         Page<SampleDto> personaPage = sampleService.findAllSamples(PageRequest.of(page - 1, limit));
-        List<SampleDto> result = personaPage.getContent();
 
+        List<SampleDto> result = personaPage.getContent();
         String baseUrl = PersonaUtil.getBaseUrl(request);
         long total = personaPage.getTotalElements();
+        ResponseFactory<ResultPagination<SampleDto>> response = ResponseFactory.paginatedSuccessWithOffset(result, total, limit, page, baseUrl);
 
-        return ResponseEntity.ok(ResponseFactory.paginatedSuccessWithOffset(result, total, limit, page, baseUrl));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getSampleById(@PathVariable Long id) {
-        SampleDto result = sampleService.findSampleById(id).orElseThrow(() -> new EntityNotFoundException("No se encontró el ID: " + id));
+        SampleDto result = sampleService.findSampleById(id);
 
-        String message = "Operación Correcta";
-        return ResponseEntity.ok(ResponseFactory.success(message, result));
+        ResponseFactory<SampleDto> response = ResponseFactory.success("Operación correcta", result);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<?> createSample(@RequestBody SampleDto sampleDto) {
-        SampleDto result = sampleService.saveSample(sampleDto).orElseThrow(() -> new IllegalArgumentException("Error al guardar"));
+        SampleDto result = sampleService.saveSample(sampleDto);
 
-        String message = "Guardado correctamente";
-        return ResponseEntity.ok(ResponseFactory.success(message, result));
+        ResponseFactory<SampleDto> response = ResponseFactory.success("Guardado correctamente", result);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateSample(@PathVariable Long id, @RequestBody SampleDto sampleDto) {
-        SampleDto result = sampleService.updateSample(id, sampleDto).orElseThrow(() -> new EntityNotFoundException("No se encontró el ID: " + id));
+        SampleDto result = sampleService.updateSample(id, sampleDto);
 
-        String message = "Actualizado correctamente";
-        return ResponseEntity.ok(ResponseFactory.success(message, result));
+        ResponseFactory<SampleDto> response = ResponseFactory.success("Actualizado correctamente", result);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteSample(@PathVariable Long id) {
-        Boolean result = sampleService.deleteSample(id).orElseThrow(() -> new EntityNotFoundException("No se encontró el ID: " + id));
+        sampleService.deleteSample(id);
 
-        String message = "Eliminado correctamente";
-        return ResponseEntity.ok(ResponseFactory.success(message, result));
+        ResponseFactory<Boolean> response = ResponseFactory.success("Eliminado correctamente", true);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
