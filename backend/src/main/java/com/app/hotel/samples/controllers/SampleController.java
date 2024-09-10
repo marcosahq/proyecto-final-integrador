@@ -28,28 +28,16 @@ public class SampleController {
     private final SampleServiceImpl sampleService;
 
     @GetMapping
-    public ResponseEntity<?> getAllSamples(HttpServletRequest request, @ModelAttribute CustomRequest<?> personaRequest) {
-        int limit = personaRequest.getLimit();
-        int page = personaRequest.getPage();
+    public ResponseEntity<?> getAllSamples(HttpServletRequest httpRequest, @ModelAttribute CustomRequest<?> sampleRequest) {
+        int limit = sampleRequest.getLimit();
+        int page = sampleRequest.getPage();
 
         Page<SampleDto> sampleDtoPage = sampleService.findAllSamples(PageRequest.of(page - 1, limit));
 
         List<SampleDto> result = sampleDtoPage.getContent();
-        String baseUrl = PersonaUtil.getBaseUrl(request);
-//        long total = personaPage.getTotalElements();
-//        ResponseFactory<ResultOffsetPagination<SampleDto>> response = ResponseFactory.paginatedSuccessWithOffset(result, total, limit, page, baseUrl);
-
-
-
-        List<SampleDto> entities = sampleDtoPage.getContent();
-
-        // Establecer el siguiente y el anterior cursor basado en los datos obtenidos
-        String nextCursor = !entities.isEmpty() ? String.valueOf(entities.get(entities.size() - 1).getId()) : null;
-        String previousCursor = !entities.isEmpty() ? String.valueOf(entities.get(0).getId()) : null;
-
-        // Determinar si hay más páginas
-        boolean hasNextPage = sampleDtoPage.hasNext();
-        ResponseFactory<ResultCursorPagination<SampleDto>> response = ResponseFactory.paginatedSuccessWithCursor(result,limit,nextCursor,previousCursor,hasNextPage, sampleDtoPage.hasPrevious(),baseUrl);
+        String baseUrl = PersonaUtil.getBaseUrl(httpRequest);
+        long total = sampleDtoPage.getTotalElements();
+        ResponseFactory<ResultOffsetPagination<SampleDto>> response = ResponseFactory.paginatedSuccessWithOffset(result, total, limit, page, baseUrl);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
