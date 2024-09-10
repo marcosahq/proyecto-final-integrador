@@ -8,11 +8,11 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ResultPagination<T> {
+public class ResultOffsetPagination<T> {
     private List<T> data;
-    private Pagination pagination;
+    private OffsetPagination pagination;
 
-    public ResultPagination(List<T> data, Pagination pagination, String baseUrl) {
+    public ResultOffsetPagination(List<T> data, OffsetPagination pagination, String baseUrl) {
         this.data = data;
         this.pagination = pagination;
         this.calculatePaginationUrls(baseUrl);

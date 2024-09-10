@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Pagination {
+public class OffsetPagination {
     private long total; // Total de elementos en la base de datos
     private int perPage; // Elementos por página
     private int currentPage; // Página actual
@@ -16,7 +16,7 @@ public class Pagination {
     private Integer to; // Último elemento de la página actual
 
     // Constructor, Getters y Setters
-    public Pagination(long total, int perPage, int currentPage) {
+    public OffsetPagination(long total, int perPage, int currentPage) {
         this.total = total;
         this.perPage = perPage;
         this.currentPage = currentPage;

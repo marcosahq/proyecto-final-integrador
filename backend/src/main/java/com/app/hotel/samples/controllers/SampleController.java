@@ -2,7 +2,8 @@ package com.app.hotel.samples.controllers;
 
 import com.app.hotel.common.requests.CustomRequest;
 import com.app.hotel.common.responses.ResponseFactory;
-import com.app.hotel.common.responses.ResultPagination;
+import com.app.hotel.common.responses.ResultCursorPagination;
+import com.app.hotel.common.responses.ResultOffsetPagination;
 import com.app.hotel.personas.util.PersonaUtil;
 import com.app.hotel.samples.models.dtos.SampleDto;
 import com.app.hotel.samples.services.impl.SampleServiceImpl;
@@ -31,12 +32,24 @@ public class SampleController {
         int limit = personaRequest.getLimit();
         int page = personaRequest.getPage();
 
-        Page<SampleDto> personaPage = sampleService.findAllSamples(PageRequest.of(page - 1, limit));
+        Page<SampleDto> sampleDtoPage = sampleService.findAllSamples(PageRequest.of(page - 1, limit));
 
-        List<SampleDto> result = personaPage.getContent();
+        List<SampleDto> result = sampleDtoPage.getContent();
         String baseUrl = PersonaUtil.getBaseUrl(request);
-        long total = personaPage.getTotalElements();
-        ResponseFactory<ResultPagination<SampleDto>> response = ResponseFactory.paginatedSuccessWithOffset(result, total, limit, page, baseUrl);
+//        long total = personaPage.getTotalElements();
+//        ResponseFactory<ResultOffsetPagination<SampleDto>> response = ResponseFactory.paginatedSuccessWithOffset(result, total, limit, page, baseUrl);
+
+
+
+        List<SampleDto> entities = sampleDtoPage.getContent();
+
+        // Establecer el siguiente y el anterior cursor basado en los datos obtenidos
+        String nextCursor = !entities.isEmpty() ? String.valueOf(entities.get(entities.size() - 1).getId()) : null;
+        String previousCursor = !entities.isEmpty() ? String.valueOf(entities.get(0).getId()) : null;
+
+        // Determinar si hay más páginas
+        boolean hasNextPage = sampleDtoPage.hasNext();
+        ResponseFactory<ResultCursorPagination<SampleDto>> response = ResponseFactory.paginatedSuccessWithCursor(result,limit,nextCursor,previousCursor,hasNextPage, sampleDtoPage.hasPrevious(),baseUrl);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
