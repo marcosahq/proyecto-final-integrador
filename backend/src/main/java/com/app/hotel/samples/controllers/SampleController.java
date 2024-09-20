@@ -2,7 +2,6 @@ package com.app.hotel.samples.controllers;
 
 import com.app.hotel.common.requests.CustomRequest;
 import com.app.hotel.common.responses.ResponseFactory;
-import com.app.hotel.common.responses.ResultCursorPagination;
 import com.app.hotel.common.responses.ResultOffsetPagination;
 import com.app.hotel.personas.util.PersonaUtil;
 import com.app.hotel.samples.models.dtos.SampleDto;
@@ -37,8 +36,8 @@ public class SampleController {
         List<SampleDto> result = sampleDtoPage.getContent();
         String baseUrl = PersonaUtil.getBaseUrl(httpRequest);
         long total = sampleDtoPage.getTotalElements();
-        ResponseFactory<ResultOffsetPagination<SampleDto>> response = ResponseFactory.paginatedSuccessWithOffset(result, total, limit, page, baseUrl);
 
+        ResponseFactory<ResultOffsetPagination<SampleDto>> response = ResponseFactory.paginatedSuccessWithOffset(result, total, limit, page, baseUrl);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
