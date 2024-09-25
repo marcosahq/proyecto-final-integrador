@@ -1,6 +1,6 @@
-package com.app.hotel.samples.services;
+package com.app.hotel.samples.service;
 
-import com.app.hotel.samples.models.dtos.SampleDto;
+import com.app.hotel.samples.model.dto.SampleDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

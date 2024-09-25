@@ -37,7 +37,7 @@ public class PersonaController {
         String baseUrl = PersonaUtil.getBaseUrl(request);
 
         long total = personaPage.getTotalElements();
-        return ResponseEntity.ok(ResponseFactory.paginatedSuccessWithOffset(result, total, limit, page, baseUrl));
+        return ResponseEntity.ok(ResponseFactory.withOffset(result, total, limit, page, baseUrl));
     }
 
     @GetMapping("/{id}")

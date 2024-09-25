@@ -1,4 +1,4 @@
-package com.app.hotel.samples.models.dtos;
+package com.app.hotel.samples.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class SampleDto {
     private Long id;

@@ -1,11 +1,10 @@
-package com.app.hotel.samples.controllers;
+package com.app.hotel.samples.controller;
 
-import com.app.hotel.common.requests.CustomRequest;
 import com.app.hotel.common.responses.ResponseFactory;
 import com.app.hotel.common.responses.ResultOffsetPagination;
 import com.app.hotel.personas.util.PersonaUtil;
-import com.app.hotel.samples.models.dtos.SampleDto;
-import com.app.hotel.samples.services.impl.SampleServiceImpl;
+import com.app.hotel.samples.model.dto.SampleDto;
+import com.app.hotel.samples.service.implementation.SampleServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,17 +26,14 @@ public class SampleController {
     private final SampleServiceImpl sampleService;
 
     @GetMapping
-    public ResponseEntity<?> getAllSamples(HttpServletRequest httpRequest, @ModelAttribute CustomRequest<?> sampleRequest) {
-        int limit = sampleRequest.getLimit();
-        int page = sampleRequest.getPage();
-
+    public ResponseEntity<?> getAllSamples(HttpServletRequest httpRequest, @RequestParam(defaultValue = "10") int limit, @RequestParam(defaultValue = "1") int page) {
         Page<SampleDto> sampleDtoPage = sampleService.findAllSamples(PageRequest.of(page - 1, limit));
 
         List<SampleDto> result = sampleDtoPage.getContent();
         String baseUrl = PersonaUtil.getBaseUrl(httpRequest);
         long total = sampleDtoPage.getTotalElements();
 
-        ResponseFactory<ResultOffsetPagination<SampleDto>> response = ResponseFactory.paginatedSuccessWithOffset(result, total, limit, page, baseUrl);
+        ResponseFactory<ResultOffsetPagination<SampleDto>> response = ResponseFactory.withOffset(result, total, limit, page, baseUrl);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

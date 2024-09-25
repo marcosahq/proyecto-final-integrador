@@ -1,6 +1,6 @@
-package com.app.hotel.samples.repositories;
+package com.app.hotel.samples.repository;
 
-import com.app.hotel.samples.models.entities.Sample;
+import com.app.hotel.samples.model.entity.Sample;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

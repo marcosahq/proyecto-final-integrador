@@ -1,4 +1,4 @@
-package com.app.hotel.samples.models.entities;
+package com.app.hotel.samples.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

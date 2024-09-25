@@ -34,7 +34,7 @@ public class ResponseFactory<T> {
     }
 
     // Respuesta exitosa con paginación por Offset y Limit
-    public static <T> OffsetPaginatedResponse<ResultOffsetPagination<T>> paginatedSuccessWithOffset(List<T> data, long total, int perPage, int currentPage, String baseUrl) {
+    public static <T> OffsetPaginatedResponse<ResultOffsetPagination<T>> withOffset(List<T> data, long total, int perPage, int currentPage, String baseUrl) {
         OffsetPagination pagination = new OffsetPagination(total, perPage, currentPage);
         ResultOffsetPagination<T> result = new ResultOffsetPagination<>(data, pagination, baseUrl);
         return new OffsetPaginatedResponse<>(true, "Operación correcta", result);
