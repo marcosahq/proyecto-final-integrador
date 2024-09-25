@@ -4,7 +4,7 @@ import com.app.hotel.common.requests.CustomRequest;
 import com.app.hotel.common.responses.ResponseFactory;
 import com.app.hotel.common.utils.RequestUtil;
 import com.app.hotel.personas.model.dto.PersonaDto;
-import com.app.hotel.personas.service.implementation.PersonaService;
+import com.app.hotel.personas.service.implementation.PersonaServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -24,20 +24,26 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PersonaController {
 
-    private final PersonaService personaService;
+    private final PersonaServiceImpl personaService;
 
     @GetMapping()
     public ResponseEntity<?> getAllPersonas(HttpServletRequest request, @ModelAttribute CustomRequest<?> personaRequest) {
-        int limit = personaRequest.getLimit();
-        int page = personaRequest.getPage();
+        if (personaRequest.getLimit() != null && personaRequest.getPage() != null) {
+            int limit = Integer.parseInt(personaRequest.getLimit());
+            int page = Integer.parseInt(personaRequest.getPage());
 
-        Page<PersonaDto> personaPage = personaService.findAllPersonas(PageRequest.of(page-1, limit));
-        List<PersonaDto> result = personaPage.getContent();
+            Page<PersonaDto> personaPage = personaService.findAllPersonasPaginate(PageRequest.of(page - 1, limit));
+            List<PersonaDto> result = personaPage.getContent();
 
-        String baseUrl = RequestUtil.getBaseUrl(request);
+            String baseUrl = RequestUtil.getBaseUrl(request);
 
-        long total = personaPage.getTotalElements();
-        return ResponseEntity.ok(ResponseFactory.withOffset(result, total, limit, page, baseUrl));
+            long total = personaPage.getTotalElements();
+            return ResponseEntity.ok(ResponseFactory.withOffset(result, total, limit, page, baseUrl));
+        } else {
+            List<PersonaDto> result = personaService.findAllPersonas();
+            ResponseFactory<List<PersonaDto>> response = ResponseFactory.success(result);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
     }
 
     @GetMapping("/{id}")

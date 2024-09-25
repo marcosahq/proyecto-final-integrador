@@ -5,20 +5,33 @@ import com.app.hotel.samples.model.entity.Sample;
 import com.app.hotel.samples.repository.SampleRepository;
 import com.app.hotel.samples.model.mapper.SampleMapper;
 import com.app.hotel.samples.service.SampleService;
+import com.app.hotel.usuarios.model.dto.UsuarioDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 @Service
 @RequiredArgsConstructor
 public class SampleServiceImpl implements SampleService {
+
     private final SampleRepository sampleRepository;
     private final SampleMapper sampleMapper;
 
     @Override
-    public Page<SampleDto> findAllSamples(Pageable pageable) {
+    public List<SampleDto> findAllSamples() {
+        List<Sample> entityList = sampleRepository.findAll(); // Leer la lista de entidades de la base de datos con paginación
+        Stream<SampleDto> streamDto = entityList.stream().map(sampleMapper::toDto); // Mapear las entidades a DTOs y devolver la página resultante
+        return streamDto.collect(Collectors.toList()); // Mapear las entidades a DTOs y devolver la página resultante
+    }
+
+    @Override
+    public Page<SampleDto> findAllSamplesPaginate(Pageable pageable) {
         Page<Sample> entityPage = sampleRepository.findAll(pageable); // Leer la lista de entidades de la base de datos con paginación
         return entityPage.map(sampleMapper::toDto); // Mapear las entidades a DTOs y devolver la página resultante
     }

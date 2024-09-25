@@ -5,6 +5,7 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 @Setter
@@ -13,6 +14,7 @@ public class ResponseFactory<T> {
     private boolean success;
     private String message;
     private T result;
+    private int status;
     private LocalDateTime timestamp;
 
     // Constructores
@@ -20,6 +22,7 @@ public class ResponseFactory<T> {
         this.setSuccess(success);
         this.setMessage(message);
         this.setResult(result);
+        this.setStatus(HttpStatus.OK.value());
         this.setTimestamp(LocalDateTime.now());
     }
 
@@ -41,8 +44,8 @@ public class ResponseFactory<T> {
     }
 
     // Respuesta exitosa con paginación basada en cursores
-    public static <T> CursorPaginatedResponse<ResultCursorPagination<T>> paginatedSuccessWithCursor(List<T> data, int limit,  String nextCursor, String previousCursor, boolean hasNextPage, boolean hasPreviousPage,String baseUrl) {
-        CursorPagination pagination = new CursorPagination(limit ,nextCursor, previousCursor, hasNextPage, hasPreviousPage);
+    public static <T> CursorPaginatedResponse<ResultCursorPagination<T>> paginatedSuccessWithCursor(List<T> data, int limit, String nextCursor, String previousCursor, boolean hasNextPage, boolean hasPreviousPage, String baseUrl) {
+        CursorPagination pagination = new CursorPagination(limit, nextCursor, previousCursor, hasNextPage, hasPreviousPage);
         ResultCursorPagination<T> result = new ResultCursorPagination<>(data, pagination, baseUrl);
         return new CursorPaginatedResponse<>(true, "Operación correcta", result);
     }

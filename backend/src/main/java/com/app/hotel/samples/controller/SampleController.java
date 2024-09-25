@@ -6,7 +6,9 @@ import com.app.hotel.common.responses.ResponseFactory;
 import com.app.hotel.common.responses.ResultOffsetPagination;
 import com.app.hotel.common.utils.RequestUtil;
 import com.app.hotel.samples.model.dto.SampleDto;
+import com.app.hotel.samples.service.SampleService;
 import com.app.hotel.samples.service.implementation.SampleServiceImpl;
+import com.app.hotel.usuarios.model.dto.UsuarioDto;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,28 +26,34 @@ import java.util.List;
 @RestController
 @RequestMapping("/samples")
 @RequiredArgsConstructor
-public class SampleController  extends BaseController {
+public class SampleController extends BaseController {
 
-    private final SampleServiceImpl sampleServiceImpl;
+    private final SampleServiceImpl sampleService;
 
     @GetMapping
     public ResponseEntity<?> getAllSamples(@ModelAttribute CustomRequest<?> personaRequest) {
-        int limit = personaRequest.getLimit();
-        int page = personaRequest.getPage();
+        if (personaRequest.getLimit() != null && personaRequest.getPage() != null) {
+            int limit = Integer.parseInt(personaRequest.getLimit());
+            int page = Integer.parseInt(personaRequest.getPage());
 
-        Page<SampleDto> sampleDtoPage = sampleServiceImpl.findAllSamples(PageRequest.of(page - 1, limit));
+            Page<SampleDto> sampleDtoPage = sampleService.findAllSamplesPaginate(PageRequest.of(page - 1, limit));
 
-        List<SampleDto> result = sampleDtoPage.getContent();
-        String baseUrl = RequestUtil.getBaseUrl(getHttpRequest());
-        long total = sampleDtoPage.getTotalElements();
+            List<SampleDto> result = sampleDtoPage.getContent();
+            String baseUrl = RequestUtil.getBaseUrl(getHttpRequest());
+            long total = sampleDtoPage.getTotalElements();
 
-        ResponseFactory<ResultOffsetPagination<SampleDto>> response = ResponseFactory.withOffset(result, total, limit, page, baseUrl);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+            ResponseFactory<ResultOffsetPagination<SampleDto>> response = ResponseFactory.withOffset(result, total, limit, page, baseUrl);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            List<SampleDto> result = sampleService.findAllSamples();
+            ResponseFactory<List<SampleDto>> response = ResponseFactory.success(result);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getSampleById(@PathVariable Long id) {
-        SampleDto result = sampleServiceImpl.findSampleById(id);
+        SampleDto result = sampleService.findSampleById(id);
 
         ResponseFactory<SampleDto> response = ResponseFactory.success("Operación correcta", result);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -53,7 +61,7 @@ public class SampleController  extends BaseController {
 
     @PostMapping
     public ResponseEntity<?> createSample(@RequestBody SampleDto sampleDto) {
-        SampleDto result = sampleServiceImpl.saveSample(sampleDto);
+        SampleDto result = sampleService.saveSample(sampleDto);
 
         ResponseFactory<SampleDto> response = ResponseFactory.success("Guardado correctamente", result);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -61,7 +69,7 @@ public class SampleController  extends BaseController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateSample(@PathVariable Long id, @RequestBody SampleDto sampleDto) {
-        SampleDto result = sampleServiceImpl.updateSample(id, sampleDto);
+        SampleDto result = sampleService.updateSample(id, sampleDto);
 
         ResponseFactory<SampleDto> response = ResponseFactory.success("Actualizado correctamente", result);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -69,7 +77,7 @@ public class SampleController  extends BaseController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteSample(@PathVariable Long id) {
-        sampleServiceImpl.deleteSample(id);
+        sampleService.deleteSample(id);
 
         ResponseFactory<Boolean> response = ResponseFactory.success("Eliminado correctamente", true);
         return new ResponseEntity<>(response, HttpStatus.OK);

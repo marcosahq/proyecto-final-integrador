@@ -4,10 +4,12 @@ import com.app.hotel.personas.model.dto.PersonaDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PersonaService {
-    Page<PersonaDto> findAllPersonas(Pageable pageable);
+    List<PersonaDto> findAllPersonas();
+    Page<PersonaDto> findAllPersonasPaginate(Pageable pageable);
     Optional<PersonaDto> findPersonaById(Long id);
     PersonaDto savePersona(PersonaDto personaDto);
     PersonaDto updatePersona(Long id, PersonaDto personaDto);

@@ -5,9 +5,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface SampleService {
-    Page<SampleDto> findAllSamples(Pageable pageable);
+    List<SampleDto> findAllSamples();
+
+    Page<SampleDto> findAllSamplesPaginate(Pageable pageable);
 
     SampleDto findSampleById(Long id);
 

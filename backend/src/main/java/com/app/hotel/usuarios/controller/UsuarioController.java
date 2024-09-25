@@ -5,11 +5,8 @@ import com.app.hotel.common.requests.CustomRequest;
 import com.app.hotel.common.responses.ResponseFactory;
 import com.app.hotel.common.responses.ResultOffsetPagination;
 import com.app.hotel.common.utils.RequestUtil;
-import com.app.hotel.samples.model.dto.SampleDto;
 import com.app.hotel.usuarios.model.dto.UsuarioDto;
-import com.app.hotel.usuarios.service.UsuarioService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.constraints.NotEmpty;
+import com.app.hotel.usuarios.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,19 +23,26 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UsuarioController extends BaseController {
 
-    private final UsuarioService usuarioService;
+    private final UsuarioServiceImpl usuarioService;
 
     @GetMapping
     public ResponseEntity<?> getAllUsuarios(@ModelAttribute CustomRequest<?> personaRequest) {
-        int limit = personaRequest.getLimit();
-        int page = personaRequest.getPage();
+        if (personaRequest.getLimit() != null && personaRequest.getPage() != null) {
+            int limit = Integer.parseInt(personaRequest.getLimit());
+            int page = Integer.parseInt(personaRequest.getPage());
 
-        Page<UsuarioDto> usuarioDtoPage = usuarioService.findAllUsuariosPaginate(PageRequest.of(page - 1, limit));
-        List<UsuarioDto> result = usuarioDtoPage.getContent();
-        String baseUrl = RequestUtil.getBaseUrl(getHttpRequest());
-        long total = usuarioDtoPage.getTotalElements();
+            Page<UsuarioDto> usuariosPaginate = usuarioService.findAllUsuariosPaginate(PageRequest.of(page - 1, limit));
+            List<UsuarioDto> result = usuariosPaginate.getContent();
+            String baseUrl = RequestUtil.getBaseUrl(getHttpRequest());
+            long total = usuariosPaginate.getTotalElements();
 
-        ResponseFactory<ResultOffsetPagination<UsuarioDto>> response = ResponseFactory.withOffset(result, total, limit, page, baseUrl);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+            ResponseFactory<ResultOffsetPagination<UsuarioDto>> response = ResponseFactory.withOffset(result, total, page, limit, baseUrl);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            List<UsuarioDto> result = usuarioService.findAllUsuarios();
+            ResponseFactory<List<UsuarioDto>> response = ResponseFactory.success(result);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+
     }
 }

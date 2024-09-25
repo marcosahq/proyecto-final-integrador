@@ -2,6 +2,7 @@ package com.app.hotel.personas.service.implementation;
 
 import com.app.hotel.personas.model.dto.PersonaDto;
 import com.app.hotel.personas.model.entity.Persona;
+import com.app.hotel.personas.model.mapper.PersonaMapper;
 import com.app.hotel.personas.repository.PersonaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -10,16 +11,26 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
-public class PersonaService implements com.app.hotel.personas.service.PersonaService {
+public class PersonaServiceImpl implements com.app.hotel.personas.service.PersonaService {
 
     private final PersonaRepository personaRepository;
+    private final PersonaMapper personaMapper;
 
     @Override
-    public Page<PersonaDto> findAllPersonas(Pageable pageable) {
+    public List<PersonaDto> findAllPersonas() {
+        List<Persona> entityList = personaRepository.findAll(); // Leer la lista de entidades de la base de datos con paginación
+        Stream<PersonaDto> streamDto = entityList.stream().map(personaMapper::toDto); // Mapear las entidades a DTOs y devolver la página resultante
+        return streamDto.collect(Collectors.toList()); // Mapear las entidades a DTOs y devolver la página resultante
+    }
+    @Override
+    public Page<PersonaDto> findAllPersonasPaginate(Pageable pageable) {
         Page<Persona> personas = personaRepository.findAll(pageable);
         return personas.map(this::mapPersonaToDto);
     }
