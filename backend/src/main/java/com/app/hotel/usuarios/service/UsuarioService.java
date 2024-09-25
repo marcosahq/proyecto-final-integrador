@@ -6,15 +6,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface UsuarioService {
-    Page<SampleDto> findAllUsuarios(Pageable pageable);
+    List<UsuarioDto> findAllUsuarios();
 
-    SampleDto findUsuarioById(Long id);
+    Page<UsuarioDto> findAllUsuariosPaginate(Pageable pageable);
 
-    SampleDto saveUsuario(UsuarioDto dto);
+    UsuarioDto findUsuarioById(Long id);
 
-    SampleDto updateUsuario(Long id, UsuarioDto dto);
+    UsuarioDto saveUsuario(UsuarioDto dto);
+
+    UsuarioDto updateUsuario(Long id, UsuarioDto dto);
 
     void deleteUsuario(Long id);
 }

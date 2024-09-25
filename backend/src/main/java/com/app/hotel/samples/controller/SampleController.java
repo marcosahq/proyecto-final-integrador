@@ -1,10 +1,12 @@
 package com.app.hotel.samples.controller;
 
+import com.app.hotel.common.controllers.BaseController;
+import com.app.hotel.common.requests.CustomRequest;
 import com.app.hotel.common.responses.ResponseFactory;
 import com.app.hotel.common.responses.ResultOffsetPagination;
 import com.app.hotel.common.utils.RequestUtil;
 import com.app.hotel.samples.model.dto.SampleDto;
-import com.app.hotel.samples.service.implementation.SampleService;
+import com.app.hotel.samples.service.implementation.SampleServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.AbstractController;
 
 import java.util.List;
 
@@ -21,16 +24,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/samples")
 @RequiredArgsConstructor
-public class SampleController {
+public class SampleController  extends BaseController {
 
-    private final SampleService sampleService;
+    private final SampleServiceImpl sampleServiceImpl;
 
     @GetMapping
-    public ResponseEntity<?> getAllSamples(HttpServletRequest httpRequest, @RequestParam(defaultValue = "10") int limit, @RequestParam(defaultValue = "1") int page) {
-        Page<SampleDto> sampleDtoPage = sampleService.findAllSamples(PageRequest.of(page - 1, limit));
+    public ResponseEntity<?> getAllSamples(@ModelAttribute CustomRequest<?> personaRequest) {
+        int limit = personaRequest.getLimit();
+        int page = personaRequest.getPage();
+
+        Page<SampleDto> sampleDtoPage = sampleServiceImpl.findAllSamples(PageRequest.of(page - 1, limit));
 
         List<SampleDto> result = sampleDtoPage.getContent();
-        String baseUrl = RequestUtil.getBaseUrl(httpRequest);
+        String baseUrl = RequestUtil.getBaseUrl(getHttpRequest());
         long total = sampleDtoPage.getTotalElements();
 
         ResponseFactory<ResultOffsetPagination<SampleDto>> response = ResponseFactory.withOffset(result, total, limit, page, baseUrl);
@@ -39,7 +45,7 @@ public class SampleController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getSampleById(@PathVariable Long id) {
-        SampleDto result = sampleService.findSampleById(id);
+        SampleDto result = sampleServiceImpl.findSampleById(id);
 
         ResponseFactory<SampleDto> response = ResponseFactory.success("Operación correcta", result);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -47,7 +53,7 @@ public class SampleController {
 
     @PostMapping
     public ResponseEntity<?> createSample(@RequestBody SampleDto sampleDto) {
-        SampleDto result = sampleService.saveSample(sampleDto);
+        SampleDto result = sampleServiceImpl.saveSample(sampleDto);
 
         ResponseFactory<SampleDto> response = ResponseFactory.success("Guardado correctamente", result);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -55,7 +61,7 @@ public class SampleController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateSample(@PathVariable Long id, @RequestBody SampleDto sampleDto) {
-        SampleDto result = sampleService.updateSample(id, sampleDto);
+        SampleDto result = sampleServiceImpl.updateSample(id, sampleDto);
 
         ResponseFactory<SampleDto> response = ResponseFactory.success("Actualizado correctamente", result);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -63,7 +69,7 @@ public class SampleController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteSample(@PathVariable Long id) {
-        sampleService.deleteSample(id);
+        sampleServiceImpl.deleteSample(id);
 
         ResponseFactory<Boolean> response = ResponseFactory.success("Eliminado correctamente", true);
         return new ResponseEntity<>(response, HttpStatus.OK);

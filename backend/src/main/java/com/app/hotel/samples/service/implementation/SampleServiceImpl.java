@@ -4,6 +4,7 @@ import com.app.hotel.samples.model.dto.SampleDto;
 import com.app.hotel.samples.model.entity.Sample;
 import com.app.hotel.samples.repository.SampleRepository;
 import com.app.hotel.samples.model.mapper.SampleMapper;
+import com.app.hotel.samples.service.SampleService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SampleService implements com.app.hotel.samples.service.SampleService {
+public class SampleServiceImpl implements SampleService {
     private final SampleRepository sampleRepository;
     private final SampleMapper sampleMapper;
 
