@@ -1,9 +1,9 @@
-package com.app.hotel.personas.util;
+package com.app.hotel.common.utils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.jetbrains.annotations.NotNull;
 
-public class PersonaUtil {
+public class RequestUtil {
     public static String getBaseUrl(@NotNull HttpServletRequest request) {
         // Obtiene el esquema (http o https)
         String scheme = request.getScheme();

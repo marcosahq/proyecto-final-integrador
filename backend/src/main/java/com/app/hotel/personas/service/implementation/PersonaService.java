@@ -1,9 +1,8 @@
-package com.app.hotel.personas.service.impl;
+package com.app.hotel.personas.service.implementation;
 
 import com.app.hotel.personas.model.dto.PersonaDto;
 import com.app.hotel.personas.model.entity.Persona;
 import com.app.hotel.personas.repository.PersonaRepository;
-import com.app.hotel.personas.service.PersonaService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class PersonaServiceImpl implements PersonaService {
+public class PersonaService implements com.app.hotel.personas.service.PersonaService {
 
     private final PersonaRepository personaRepository;
 

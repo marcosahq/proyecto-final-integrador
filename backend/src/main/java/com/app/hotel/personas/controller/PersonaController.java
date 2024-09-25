@@ -2,9 +2,9 @@ package com.app.hotel.personas.controller;
 
 import com.app.hotel.common.requests.CustomRequest;
 import com.app.hotel.common.responses.ResponseFactory;
+import com.app.hotel.common.utils.RequestUtil;
 import com.app.hotel.personas.model.dto.PersonaDto;
-import com.app.hotel.personas.service.impl.PersonaServiceImpl;
-import com.app.hotel.personas.util.PersonaUtil;
+import com.app.hotel.personas.service.implementation.PersonaService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PersonaController {
 
-    private final PersonaServiceImpl personaService;
+    private final PersonaService personaService;
 
     @GetMapping()
     public ResponseEntity<?> getAllPersonas(HttpServletRequest request, @ModelAttribute CustomRequest<?> personaRequest) {
@@ -34,7 +34,7 @@ public class PersonaController {
         Page<PersonaDto> personaPage = personaService.findAllPersonas(PageRequest.of(page-1, limit));
         List<PersonaDto> result = personaPage.getContent();
 
-        String baseUrl = PersonaUtil.getBaseUrl(request);
+        String baseUrl = RequestUtil.getBaseUrl(request);
 
         long total = personaPage.getTotalElements();
         return ResponseEntity.ok(ResponseFactory.withOffset(result, total, limit, page, baseUrl));
