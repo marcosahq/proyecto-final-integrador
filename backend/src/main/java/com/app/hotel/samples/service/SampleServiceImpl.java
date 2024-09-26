@@ -1,11 +1,9 @@
-package com.app.hotel.samples.service.implementation;
+package com.app.hotel.samples.service;
 
 import com.app.hotel.samples.model.dto.SampleDto;
 import com.app.hotel.samples.model.entity.Sample;
 import com.app.hotel.samples.repository.SampleRepository;
 import com.app.hotel.samples.model.mapper.SampleMapper;
-import com.app.hotel.samples.service.SampleService;
-import com.app.hotel.usuarios.model.dto.UsuarioDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

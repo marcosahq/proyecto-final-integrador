@@ -6,7 +6,7 @@ import com.app.hotel.common.responses.ResponseFactory;
 import com.app.hotel.common.responses.ResultOffsetPagination;
 import com.app.hotel.common.utils.RequestUtil;
 import com.app.hotel.usuarios.model.dto.UsuarioDto;
-import com.app.hotel.usuarios.service.implementation.UsuarioServiceImpl;
+import com.app.hotel.usuarios.service.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

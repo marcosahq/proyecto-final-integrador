@@ -1,10 +1,9 @@
-package com.app.hotel.usuarios.service.implementation;
+package com.app.hotel.usuarios.service;
 
 import com.app.hotel.usuarios.model.dto.UsuarioDto;
 import com.app.hotel.usuarios.model.entity.Usuario;
 import com.app.hotel.usuarios.model.mapper.UsuarioMapper;
 import com.app.hotel.usuarios.repository.UsuarioRepository;
-import com.app.hotel.usuarios.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

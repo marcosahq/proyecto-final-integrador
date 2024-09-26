@@ -6,10 +6,7 @@ import com.app.hotel.common.responses.ResponseFactory;
 import com.app.hotel.common.responses.ResultOffsetPagination;
 import com.app.hotel.common.utils.RequestUtil;
 import com.app.hotel.samples.model.dto.SampleDto;
-import com.app.hotel.samples.service.SampleService;
-import com.app.hotel.samples.service.implementation.SampleServiceImpl;
-import com.app.hotel.usuarios.model.dto.UsuarioDto;
-import jakarta.servlet.http.HttpServletRequest;
+import com.app.hotel.samples.service.SampleServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.AbstractController;
 
 import java.util.List;
 

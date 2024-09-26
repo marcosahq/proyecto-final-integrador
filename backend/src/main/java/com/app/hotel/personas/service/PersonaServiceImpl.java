@@ -1,4 +1,4 @@
-package com.app.hotel.personas.service.implementation;
+package com.app.hotel.personas.service;
 
 import com.app.hotel.personas.model.dto.PersonaDto;
 import com.app.hotel.personas.model.entity.Persona;

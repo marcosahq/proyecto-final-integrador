@@ -4,7 +4,7 @@ import com.app.hotel.common.requests.CustomRequest;
 import com.app.hotel.common.responses.ResponseFactory;
 import com.app.hotel.common.utils.RequestUtil;
 import com.app.hotel.personas.model.dto.PersonaDto;
-import com.app.hotel.personas.service.implementation.PersonaServiceImpl;
+import com.app.hotel.personas.service.PersonaServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
