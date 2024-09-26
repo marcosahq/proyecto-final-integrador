@@ -32,7 +32,7 @@ public class PersonaController {
             int limit = Integer.parseInt(personaRequest.getLimit());
             int page = Integer.parseInt(personaRequest.getPage());
 
-            Page<PersonaDto> personaPage = personaService.findAllPersonasPaginate(PageRequest.of(page - 1, limit));
+            Page<PersonaDto> personaPage = personaService.paginar(PageRequest.of(page - 1, limit));
             List<PersonaDto> result = personaPage.getContent();
 
             String baseUrl = RequestUtil.getBaseUrl(request);
@@ -40,7 +40,7 @@ public class PersonaController {
             long total = personaPage.getTotalElements();
             return ResponseEntity.ok(ResponseFactory.withOffset(result, total, limit, page, baseUrl));
         } else {
-            List<PersonaDto> result = personaService.findAllPersonas();
+            List<PersonaDto> result = personaService.listar();
             ResponseFactory<List<PersonaDto>> response = ResponseFactory.success(result);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
@@ -48,26 +48,26 @@ public class PersonaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PersonaDto> getPersonaById(@PathVariable Long id) {
-        return personaService.findPersonaById(id)
+        return personaService.obtenerPorId(id)
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new EntityNotFoundException("No se encontró a la persona con ID: " + id));
     }
 
     @PostMapping
     public ResponseEntity<PersonaDto> createPersona(@RequestBody PersonaDto personaDto) {
-        PersonaDto savedPersona = personaService.savePersona(personaDto);
+        PersonaDto savedPersona = personaService.guardar(personaDto);
         return new ResponseEntity<>(savedPersona, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PersonaDto> updatePersona(@PathVariable Long id, @RequestBody PersonaDto personaDto) {
-        PersonaDto updatedPersona = personaService.updatePersona(id, personaDto);
+    public ResponseEntity<PersonaDto> actualizar(@PathVariable Long id, @RequestBody PersonaDto personaDto) {
+        PersonaDto updatedPersona = personaService.actualizar(id, personaDto);
         return ResponseEntity.ok(updatedPersona);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePersona(@PathVariable Long id) {
-        personaService.deletePersona(id);
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+        personaService.eliminar(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -24,24 +24,24 @@ public class PersonaServiceImpl implements com.app.hotel.personas.service.Person
     private final PersonaMapper personaMapper;
 
     @Override
-    public List<PersonaDto> findAllPersonas() {
+    public List<PersonaDto> listar() {
         List<Persona> entityList = personaRepository.findAll(); // Leer la lista de entidades de la base de datos con paginación
         Stream<PersonaDto> streamDto = entityList.stream().map(personaMapper::toDto); // Mapear las entidades a DTOs y devolver la página resultante
         return streamDto.collect(Collectors.toList()); // Mapear las entidades a DTOs y devolver la página resultante
     }
     @Override
-    public Page<PersonaDto> findAllPersonasPaginate(Pageable pageable) {
+    public Page<PersonaDto> paginar(Pageable pageable) {
         Page<Persona> personas = personaRepository.findAll(pageable);
         return personas.map(this::mapPersonaToDto);
     }
 
     @Override
-    public Optional<PersonaDto> findPersonaById(Long id) {
+    public Optional<PersonaDto> obtenerPorId(Long id) {
         return personaRepository.findById(id).map(this::mapPersonaToDto);
     }
 
     @Override
-    public PersonaDto savePersona(PersonaDto personaDto) {
+    public PersonaDto guardar(PersonaDto personaDto) {
         return Optional.ofNullable(personaDto)
                 .map(this::mapDtoToPersona)
                 .map(persona -> {
@@ -54,7 +54,7 @@ public class PersonaServiceImpl implements com.app.hotel.personas.service.Person
     }
 
     @Override
-    public PersonaDto updatePersona(Long id, PersonaDto personaDto) {
+    public PersonaDto actualizar(Long id, PersonaDto personaDto) {
         return personaRepository.findById(id)
                 .map(existingPersona -> {
                     mapUpdatePersona(personaDto, existingPersona);
@@ -66,7 +66,7 @@ public class PersonaServiceImpl implements com.app.hotel.personas.service.Person
     }
 
     @Override
-    public void deletePersona(Long id) {
+    public void eliminar(Long id) {
         Optional.of(id) // Envuelve el ID en un Optional
                 .filter(personaRepository::existsById) // Filtra si la persona existe
                 .map(idPersona ->{

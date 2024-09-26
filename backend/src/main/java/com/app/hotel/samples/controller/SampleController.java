@@ -31,12 +31,12 @@ public class SampleController extends BaseController {
     private final SampleServiceImpl sampleService;
 
     @GetMapping
-    public ResponseEntity<?> getAllSamples(@ModelAttribute CustomRequest<?> personaRequest) {
+    public ResponseEntity<?> obtenerSamples(@ModelAttribute CustomRequest<?> personaRequest) {
         if (personaRequest.getLimit() != null && personaRequest.getPage() != null) {
             int limit = Integer.parseInt(personaRequest.getLimit());
             int page = Integer.parseInt(personaRequest.getPage());
 
-            Page<SampleDto> sampleDtoPage = sampleService.findAllSamplesPaginate(PageRequest.of(page - 1, limit));
+            Page<SampleDto> sampleDtoPage = sampleService.paginar(PageRequest.of(page - 1, limit));
 
             List<SampleDto> result = sampleDtoPage.getContent();
             String baseUrl = RequestUtil.getBaseUrl(getHttpRequest());
@@ -45,39 +45,39 @@ public class SampleController extends BaseController {
             ResponseFactory<ResultOffsetPagination<SampleDto>> response = ResponseFactory.withOffset(result, total, limit, page, baseUrl);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
-            List<SampleDto> result = sampleService.findAllSamples();
+            List<SampleDto> result = sampleService.listar();
             ResponseFactory<List<SampleDto>> response = ResponseFactory.success(result);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getSampleById(@PathVariable Long id) {
-        SampleDto result = sampleService.findSampleById(id);
+    public ResponseEntity<?> obtenerSamplePorId(@PathVariable Long id) {
+        SampleDto result = sampleService.obtenerPorId(id);
 
         ResponseFactory<SampleDto> response = ResponseFactory.success("Operación correcta", result);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> createSample(@RequestBody SampleDto sampleDto) {
-        SampleDto result = sampleService.saveSample(sampleDto);
+    public ResponseEntity<?> crearSample(@RequestBody SampleDto sampleDto) {
+        SampleDto result = sampleService.guardar(sampleDto);
 
         ResponseFactory<SampleDto> response = ResponseFactory.success("Guardado correctamente", result);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateSample(@PathVariable Long id, @RequestBody SampleDto sampleDto) {
-        SampleDto result = sampleService.updateSample(id, sampleDto);
+    public ResponseEntity<?> actualizarSample(@PathVariable Long id, @RequestBody SampleDto sampleDto) {
+        SampleDto result = sampleService.actualizar(id, sampleDto);
 
         ResponseFactory<SampleDto> response = ResponseFactory.success("Actualizado correctamente", result);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteSample(@PathVariable Long id) {
-        sampleService.deleteSample(id);
+    public ResponseEntity<?> eliminarSample(@PathVariable Long id) {
+        sampleService.eliminar(id);
 
         ResponseFactory<Boolean> response = ResponseFactory.success("Eliminado correctamente", true);
         return new ResponseEntity<>(response, HttpStatus.OK);

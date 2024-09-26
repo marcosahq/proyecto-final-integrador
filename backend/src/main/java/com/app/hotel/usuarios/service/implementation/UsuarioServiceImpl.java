@@ -22,35 +22,35 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioMapper usuarioMapper;
 
     @Override
-    public List<UsuarioDto> findAllUsuarios() {
+    public List<UsuarioDto> listar() {
         List<Usuario> entityList = usuarioRepository.findAll(); // Leer la lista de entidades de la base de datos con paginación
         Stream<UsuarioDto> streamDto = entityList.stream().map(usuarioMapper::toDto);
         return streamDto.collect(Collectors.toList()); // Mapear las entidades a DTOs y devolver la página resultante
     }
 
     @Override
-    public Page<UsuarioDto> findAllUsuariosPaginate(Pageable pageable) {
+    public Page<UsuarioDto> paginar(Pageable pageable) {
         Page<Usuario> entityPage = usuarioRepository.findAll(pageable); // Leer la lista de entidades de la base de datos con paginación
         return entityPage.map(usuarioMapper::toDto); // Mapear las entidades a DTOs y devolver la página resultante
     }
 
     @Override
-    public UsuarioDto findUsuarioById(Long id) {
+    public UsuarioDto obtenerPorId(Long id) {
         return null;
     }
 
     @Override
-    public UsuarioDto saveUsuario(UsuarioDto dto) {
+    public UsuarioDto guardar(UsuarioDto dto) {
         return null;
     }
 
     @Override
-    public UsuarioDto updateUsuario(Long id, UsuarioDto dto) {
+    public UsuarioDto actualizar(Long id, UsuarioDto dto) {
         return null;
     }
 
     @Override
-    public void deleteUsuario(Long id) {
+    public void eliminar(Long id) {
 
     }
 }

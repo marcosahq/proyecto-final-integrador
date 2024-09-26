@@ -9,15 +9,15 @@ import java.util.List;
 
 @Service
 public interface SampleService {
-    List<SampleDto> findAllSamples();
+    List<SampleDto> listar();
 
-    Page<SampleDto> findAllSamplesPaginate(Pageable pageable);
+    Page<SampleDto> paginar(Pageable pageable);
 
-    SampleDto findSampleById(Long id);
+    SampleDto obtenerPorId(Long id);
 
-    SampleDto saveSample(SampleDto sampleDto);
+    SampleDto guardar(SampleDto sampleDto);
 
-    SampleDto updateSample(Long id, SampleDto sampleDto);
+    SampleDto actualizar(Long id, SampleDto sampleDto);
 
-    void deleteSample(Long id);
+    void eliminar(Long id);
 }

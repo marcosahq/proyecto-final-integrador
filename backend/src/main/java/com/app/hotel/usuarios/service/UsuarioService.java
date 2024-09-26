@@ -10,15 +10,15 @@ import java.util.List;
 
 @Service
 public interface UsuarioService {
-    List<UsuarioDto> findAllUsuarios();
+    List<UsuarioDto> listar();
 
-    Page<UsuarioDto> findAllUsuariosPaginate(Pageable pageable);
+    Page<UsuarioDto> paginar(Pageable pageable);
 
-    UsuarioDto findUsuarioById(Long id);
+    UsuarioDto obtenerPorId(Long id);
 
-    UsuarioDto saveUsuario(UsuarioDto dto);
+    UsuarioDto guardar(UsuarioDto dto);
 
-    UsuarioDto updateUsuario(Long id, UsuarioDto dto);
+    UsuarioDto actualizar(Long id, UsuarioDto dto);
 
-    void deleteUsuario(Long id);
+    void eliminar(Long id);
 }
